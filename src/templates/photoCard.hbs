@@ -1,0 +1,17 @@
+<div class="photo-card">
+    <img src="{{this.webformatURL}}" alt="photo-card__webformatURL" class="photo-card__webformatURL">
+    {{!-- ссылка на маленькое изображение для списка карточек --}}
+
+    {{!-- <img src="{{largeImageURL}}" alt="photo-card__largeImageURL" class="photo-card__largeImageURL"> --}}
+    {{!-- ссылка на большое изображение (смотри пункт 'дополнительно') --}}
+    <div class="photo-card__stats">
+
+        <p class="likes">{{likes}} <br \ />likes</p> {{!-- количество лайков --}}
+
+        <p class="views">{{views}} <br \ />views</p> {{!-- количество просмотров --}}
+
+        <p class="comments">{{comments}} <br \ />comments</p> {{!-- количество комментариев --}}
+
+        <p class="downloads">{{downloads}} <br \ />downloads</p> {{!-- количество загрузок --}}
+    </div>
+</div>

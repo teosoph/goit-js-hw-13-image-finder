@@ -1,2 +1,6 @@
 import './styles.css';
-import './js/apiService';
+import './css/preloader.css';
+import './js/photos/photos';
+import fetchPhotos from './js/services/apiService';
+
+// console.log(fetchPhotos);

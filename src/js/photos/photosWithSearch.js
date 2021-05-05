@@ -6,30 +6,18 @@ import '../../css/photos.css';
 
 const preloader = preloaderFactory('.preloader');
 
-const searchForm = document.querySelector('.search-form');
-
+//  Class Photos template
 class Photos {
+  // Constructor of class Photos
   constructor(selector) {
     this.element = document.querySelector(selector);
     this.photos = [];
-    this.currentPhotos = [];
     this.searchQuery = '';
     this.page = 0;
-
     this.observeEnable = true;
   }
 
-  filterByQuery(query = '') {
-    this.observeEnable = false;
-    this.currentPhotos = query
-      ? this.photos.filter(photo =>
-          photo.tags.toLowerCase().includes(query.toLowerCase()),
-        )
-      : this.photos;
-
-    this.renderPhotos();
-  }
-
+  // Method of observerving of page-end and add new search-entries
   addObserver() {
     const observerOption = {
       rootMargin: '100px',
@@ -38,7 +26,7 @@ class Photos {
       if (!this.observeEnable) return;
       if (entries[0].isIntersecting) {
         this.page += 1;
-        this.fetchPhotos(this.page);
+        this.searchPhotos(this.query, this.page);
       }
     }, 200);
 
@@ -49,34 +37,35 @@ class Photos {
     observer.observe(observerElement);
   }
 
+  // Method of rendering searched photos
   renderPhotos() {
-    const photosWithPosterPath = this.currentPhotos.map(photo => {
+    const photosToRender = this.photos.map(photo => {
       return {
         ...photo,
       };
     });
-    const photosList = photosListTemplate(photosWithPosterPath);
+    const photosList = photosListTemplate(photosToRender);
     this.element.innerHTML = photosList;
   }
 
-  searchPhotos() {
+  // Method of searching photos
+  searchPhotos(query) {
     this.page = 1;
     this.searchQuery = query;
-    this.fetchPhotos(this.page, this.searchQuery);
+    this.photos = [];
+    this.photosService(this.searchQuery, this.page);
   }
 
-  async fetchPhotos(page, query = '') {
+  // Method of fetching photos
+  async photosService(query = '', page) {
     this.searchQuery = query;
     console.log(query);
 
     try {
-      const { hits } = query
-        ? await photosService.searchPhotos(query, page)
-        : await photosService.fetchPhotos(page);
+      const { hits } = await photosService.searchPhotos(query, page);
       console.log(hits);
 
       this.photos = [...this.photos, ...hits];
-      this.currentPhotos = this.photos;
       this.renderPhotos();
       // console.log(hits);
     } catch (error) {
@@ -87,19 +76,24 @@ class Photos {
     }
   }
 
+  // Method of initialisation
   init() {
     this.addObserver();
   }
 }
 
+// Creating a new object Photos
 const photos = new Photos('.photos-list');
 photos.init();
 
-const searchHandler = ({ target }) => {
+// Search__Handler function
+const searchHandler = debounce(({ target }) => {
   if (target.name === 'search-query') {
     photos.searchPhotos(target.value);
     console.log(target.value);
   }
-};
+}, 1000);
 
+//  addEventListener to SearchForm__querySelector
+const searchForm = document.querySelector('.search-form');
 searchForm.addEventListener('input', searchHandler);

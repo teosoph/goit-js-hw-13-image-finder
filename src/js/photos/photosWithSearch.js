@@ -15,6 +15,7 @@ class Photos {
     this.currentPhotos = [];
     this.searchQuery = '';
     this.page = 0;
+
     this.observeEnable = true;
   }
 
@@ -58,9 +59,22 @@ class Photos {
     this.element.innerHTML = photosList;
   }
 
-  async fetchPhotos(page) {
+  searchPhotos() {
+    this.page = 1;
+    this.searchQuery = query;
+    this.fetchPhotos(this.page, this.searchQuery);
+  }
+
+  async fetchPhotos(page, query = '') {
+    this.searchQuery = query;
+    console.log(query);
+
     try {
-      const { hits } = await photosService.fetchPhotos(page);
+      const { hits } = query
+        ? await photosService.searchPhotos(query, page)
+        : await photosService.fetchPhotos(page);
+      console.log(hits);
+
       this.photos = [...this.photos, ...hits];
       this.currentPhotos = this.photos;
       this.renderPhotos();
@@ -83,7 +97,7 @@ photos.init();
 
 const searchHandler = ({ target }) => {
   if (target.name === 'search-query') {
-    photos.filterByQuery(target.value);
+    photos.searchPhotos(target.value);
     console.log(target.value);
   }
 };

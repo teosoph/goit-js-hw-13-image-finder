@@ -7,9 +7,9 @@ export default class ApiService {
     this.searchQuery = '';
     this.pageNumber = 1;
   }
-  // ------------------------- Promise.then ---------------------------------------------------
+  // ------------------------- Search Promise & then ---------------------------------------------------
   searchPhotos() {
-    const searchUrl = `${BASE_URL}?image_type=photo&orientation=horizontal&q=${this.searchQuery}&page=${this.pageNumber}&per_page=12&key=${KEY}`;
+    const searchUrl = `${BASE_URL}?image_type=photo&orientation=horizontal&q=${this.searchQuery}&page=${this.pageNumber}&per_page=12&key=${API_KEY}`;
     return fetch(searchUrl)
       .then(response => response.json())
       .then(({ hits }) => {

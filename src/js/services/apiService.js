@@ -1,17 +1,36 @@
-const BASE_URL = 'https://pixabay.com/api/'; // API_URL
-// const query = ''; // что_искать
-// const page = '1'; // номер_страницы
-const KEY = '21420478-fd2340d70fd107c9f0617a1e9'; //твой_ключ
+const BASE_URL = 'https://pixabay.com/api';
+const API_KEY = '21195458-19b2d8fc62244b43de198b4d0';
 
-export default {
-  async searchPhotos(query, page) {
-    const rawResult = await fetch(
-      `${BASE_URL}?image_type=photo&orientation=horizontal&q=${query}&page=${page}&per_page=12&key=${KEY}`,
-    );
-    if (!rawResult.ok) {
-      throw rawResult;
-    }
-    const result = await rawResult.json();
-    return result;
-  },
-};
+// ------------- Class ApiService template ------------------
+export default class ApiService {
+  constructor() {
+    this.searchQuery = '';
+    this.pageNumber = 1;
+  }
+  // ------------------------- Promise.then ---------------------------------------------------
+  searchPhotos() {
+    const searchUrl = `${BASE_URL}?image_type=photo&orientation=horizontal&q=${this.searchQuery}&page=${this.pageNumber}&per_page=12&key=${KEY}`;
+    return fetch(searchUrl)
+      .then(response => response.json())
+      .then(({ hits }) => {
+        this.incrementPage();
+        return hits;
+      });
+  }
+
+  // ------------------------- Get & Set  queries -------------------
+  get query() {
+    return this.searchQuery;
+  }
+  set query(newQuery) {
+    this.searchQuery = newQuery;
+  }
+
+  // ---------------------  Increment & reset page -----------------------
+  incrementPage() {
+    this.pageNumber += 1;
+  }
+  resetPage() {
+    this.pageNumber = 1;
+  }
+}

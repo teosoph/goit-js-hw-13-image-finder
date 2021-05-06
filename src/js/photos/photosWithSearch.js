@@ -8,22 +8,19 @@ const galleryRef = document.querySelector('.photos-list');
 const searchFormRef = document.querySelector('.search-form');
 const inputRef = document.querySelector('.search-input');
 
-// ------------- Method of appending photos --------------
-const appendCardsTemplate = photos => {
-  galleryRef.insertAdjacentHTML('beforeend', photosListTemplate(photos));
-};
+// ------------- function of Appending photos --------------
+function appendCardsTemplate(hits) {
+  galleryRef.insertAdjacentHTML('beforeend', photosListTemplate(hits));
+}
 
-// ------------- Method of cleaning photos --------------
-const clearCardsTemplate = () => {
+// ------------- function of Cleaning photos --------------
+function clearCardsTemplate() {
   galleryRef.innerHTML = '';
-};
+}
 
-// ------------- Method of searching photos --------------
-function searchPhotos(event) {
-  // event.preventDefault();
-  // apiService.searchQuery = event.currentTarget.elements.query.value;
-  apiService.resetPage();
-  apiService.searchPhotos().then(hits => {
+// ------------- function of Searching photos --------------
+function searchPhotos(query) {
+  apiService.searchPhotos(query).then(hits => {
     clearCardsTemplate();
     appendCardsTemplate(hits);
   });
@@ -31,7 +28,7 @@ function searchPhotos(event) {
 
 searchFormRef.addEventListener('submit', searchPhotos);
 
-// ------------ Search__Handler function -----------
+// ------------ function of Search__Handler  -----------
 const searchHandler = ({ target }) => {
   if (target.name === 'search-query') {
     searchPhotos(target.value);

@@ -9,20 +9,20 @@ const searchFormRef = document.querySelector('.search-form');
 const inputRef = document.querySelector('.search-input');
 
 // ------------- function of Appending photos --------------
-function appendCardsTemplate(hits) {
+function appendPhotosTemplate(hits) {
   galleryRef.insertAdjacentHTML('beforeend', photosListTemplate(hits));
 }
 
-// ------------- function of Cleaning photos --------------
-function clearCardsTemplate() {
+// ------------- function of innerHTML photos --------------
+function photosInnerHTML() {
   galleryRef.innerHTML = '';
 }
 
 // ------------- function of Searching photos --------------
 function searchPhotos(query) {
   apiService.searchPhotos(query).then(hits => {
-    clearCardsTemplate();
-    appendCardsTemplate(hits);
+    photosInnerHTML();
+    appendPhotosTemplate(hits);
   });
 }
 

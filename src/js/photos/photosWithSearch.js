@@ -19,22 +19,39 @@ function photosInnerHTML() {
 }
 
 // ------------- function of Searching photos --------------
-function searchPhotos(query) {
-  console.log(query, ' ------searchPhotos(query)');
-
-  apiService.searchPhotos(query).then(hits => {
-    appendPhotosTemplate(hits);
+const searchPhotos = event => {
+  event.preventDefault();
+  apiService.query = event.currentTarget.elements[0].value;
+  console.dir(event.currentTarget.elements[0].value);
+  if (apiService.query.trim() === '') {
+    return alert('Please Enter Search Query');
+  }
+  apiService.resetPage();
+  apiService.searchPhotos().then(hits => {
     photosInnerHTML();
+    appendPhotosTemplate(hits);
+
+    showMoreBtnRef.style.display = 'block';
   });
-}
+};
 
 searchFormRef.addEventListener('submit', searchPhotos);
 
 // ------------ function of Search__Handler  -----------
-const searchHandler = ({ target }) => {
-  if (target.name === 'search-query') {
-    searchPhotos(target.value);
-    console.log(target.value, ' ------searchHandler(query)');
-  }
-};
-inputRef.addEventListener('input', searchHandler);
+// const searchHandler = ({ target }) => {
+//   if (target.name === 'search-query') {
+//     searchPhotos(target.value);
+//     console.log(target.value, ' ------searchHandler(query)');
+//   }
+// };
+// inputRef.addEventListener('input', searchHandler);
+
+// ----------------- function of Add more photos by Click on btn 'Show more' ----------------
+function showMore() {
+  apiService.searchPhotos().then(hits => {
+    appendPhotosTemplate(hits);
+  });
+}
+const showMoreBtnRef = document.querySelector('.show-more-button');
+showMoreBtnRef.style.display = 'none';
+showMoreBtnRef.addEventListener('click', showMore);

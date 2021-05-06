@@ -18,6 +18,7 @@ body {
   min-height: 100vh;
   display: flex;
   justify-content: center;
+  align-items: center;
 
   border: 20px solid blue;
 }
@@ -47,5 +48,11 @@ h1 {
 .search-button {
   height: 50px;
   width: 120px;
+  font-size: 30px;
+}
+
+.show-more-button {
+  height: 50px;
+  width: 220px;
   font-size: 30px;
 }

@@ -1,6 +1,11 @@
 .container {
-  display: block;
   text-align: center;
+
+  display: flex;
+  flex-wrap: wrap;
+
+  justify-content: center;
+  align-items: center;
 
   height: 100%;
   width: 100%;
@@ -12,6 +17,7 @@
 }
 
 .photo-list-title {
+  display: block;
   text-align: center;
 
   font-size: 50px;

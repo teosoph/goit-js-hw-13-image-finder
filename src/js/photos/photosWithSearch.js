@@ -20,9 +20,11 @@ function photosInnerHTML() {
 
 // ------------- function of Searching photos --------------
 function searchPhotos(query) {
+  console.log(query, ' ------searchPhotos(query)');
+
   apiService.searchPhotos(query).then(hits => {
-    photosInnerHTML();
     appendPhotosTemplate(hits);
+    photosInnerHTML();
   });
 }
 
@@ -32,7 +34,7 @@ searchFormRef.addEventListener('submit', searchPhotos);
 const searchHandler = ({ target }) => {
   if (target.name === 'search-query') {
     searchPhotos(target.value);
-    console.log(target.value);
+    console.log(target.value, ' ------searchHandler(query)');
   }
 };
 inputRef.addEventListener('input', searchHandler);

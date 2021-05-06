@@ -1,4 +1,4 @@
-const BASE_URL = 'https://pixabay.com/api';
+const BASE_URL = 'https://pixabay.com/api/';
 const API_KEY = '21195458-19b2d8fc62244b43de198b4d0';
 
 // ------------- Class ApiService template ------------------
